@@ -2,7 +2,7 @@ import pygame
 import json
 from agent import Agent
 from world import WorldMap, Pathfinder
-from ai_system import AIKnowledge
+from ai_system import AIKnowledge, AchievementSystem
 from ui import UI
 
 class Game:
@@ -40,6 +40,9 @@ class Game:
         self.camera_x = 0
         self.camera_y = 0
         self.ui_scroll_y = 0
+
+        self.achievement_system = AchievementSystem()
+        self.achievement_system.load_achievements()
 
     def emoji(self, resource_name):
         emojis = {
@@ -115,7 +118,11 @@ class Game:
 
         if not self.agent.alive:
             self.end_attempt()
-        elif self.agent.current_day >= 180:
+        else:
+            new_achievements = self.achievement_system.check_achievements(self.agent)
+            for ach in new_achievements:
+                self.add_log(f"🏆 OSIĄGNIĘCIE: {ach.name}!")
+        if self.agent.current_day >= 180:
             self.add_log("PRZEŻYTO 180 DNI!")
             self.simulation_active = False
             self.knowledge.save_to_file()
@@ -127,7 +134,9 @@ class Game:
             self.knowledge.save_to_file()
             self.add_log(f"💀 Przyczyna: {self.agent.death_cause}")
             self.add_log(f"Przeżyto: {self.agent.current_day}/180 dni")
-        self.simulation_active = False
+            self.add_log(f"🔄 Auto-restarting attempt #{self.knowledge.attempts + 1}...")
+            pygame.time.delay(2000)
+            self.start_new_attempt()
 
     def run(self):
         while self.running:
