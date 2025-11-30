@@ -593,6 +593,7 @@ class Agent:
         self.thoughts = []
         self.action_history = []
         self.memory_context = {}
+        self.position_history = []
 
         self.caution_penalty_score = 0
         self.days_without_exploration = 0
@@ -652,6 +653,8 @@ class Agent:
         int_bonus = 1.0 + (self.intelligence * 0.02)
         total_exp = int(amount * day_bonus * int_bonus)
         self.exp += total_exp
+        if self.exp < 0:
+            self.exp = 0
         while self.exp >= self.exp_to_next:
             self.level_up()
         self.knowledge.record_action(self.current_day, action_type, True, {"exp": total_exp})
@@ -660,7 +663,7 @@ class Agent:
     def level_up(self):
         self.level += 1
         self.exp -= self.exp_to_next
-        self.exp_to_next = int(self.exp_to_next * 1.15) + 15
+        self.exp_to_next = int(self.exp_to_next * 1.12) + 10
         self.stat_points += 5
         if self.level % 6 == 0:
             self.skill_points += 1
@@ -693,7 +696,6 @@ class Agent:
         self.thoughts.append(thought)
         if len(self.thoughts) > 5:
             self.thoughts.pop(0)
-        self.add_log(f"💭 {thought}")
 
     def reflect_on_day(self):
         if self.current_day == 1:
@@ -860,6 +862,9 @@ class Agent:
 
             self.x = new_x
             self.y = new_y
+            self.position_history.append((self.x, self.y))
+            if len(self.position_history) > 10:
+                self.position_history.pop(0)
             self.update_discovered_tiles(self.x, self.y)
             self.move_cooldown = self.move_speed
             self.stamina = max(0, self.stamina - 2)
@@ -886,8 +891,21 @@ class Agent:
         }
 
     def ai_decide_action(self, world_map):
+        if len(self.position_history) > 6 and len(set(self.position_history[-6:])) <= 2:
+            self.think("Utknąłem w pętli, eksploruję losowo.")
+            return "explore"
         if self.pending_skill_choice:
             self.auto_choose_skill()
+
+        # Priority based on last death cause
+        if self.knowledge.death_analysis:
+            last_death = self.knowledge.death_analysis[-1]
+            if last_death['cause'] == 'hunger' and self.inventory['food'] < 10:
+                self.think("Muszę unikać śmierci z głodu. Priorytet: jedzenie!")
+                return ("find_resource", "food")
+            if last_death['cause'] == 'thirst' and self.inventory['water'] < 10:
+                self.think("Ostatnio zginąłem z pragnienia. Priorytet: woda!")
+                return ("find_resource", "water")
 
         if self.hunger < 20 and self.inventory["food"] > 0:
             return "eat"
@@ -938,8 +956,15 @@ class Agent:
         if self.inventory["stone"] < 30 and self.can_carry_more():
             return ("find_resource", "stone")
 
-        # Default action if no other priorities are met
-        return "explore"
+        # Default action based on risk tolerance
+        if self.knowledge.risk_tolerance > 0.65:
+            return "explore"
+        else:
+            # Fallback to gathering basic resources if low risk tolerance
+            if self.inventory["wood"] < 50:
+                return ("find_resource", "wood")
+            else:
+                return "explore"
 
     def execute_action(self, action, world_map):
         self.current_action = action
@@ -1006,7 +1031,7 @@ class Agent:
                                 self.equipment["tool"].use()
                             self.inventory[resource_type] += harvested
                             self.stamina = max(0, self.stamina - 5)
-                            exp = self.gain_exp(4, f"gather_{resource_type}")
+                            exp = self.gain_exp(8, f"gather_{resource_type}")
                             reward = self.q_learning.get_reward_for_action(f"gather_{resource_type}") + harvested * 0.5
                             self.q_learning.add_reward(self, f"gather_{resource_type}", reward, self.current_day)
                             if reward > 15:
@@ -1085,7 +1110,7 @@ class Agent:
                         self.inventory[res] -= amt
                     item = Item("Kamienny Topór", "tool", 50, {"harvest_speed": 1.5})
                     self.equipment["tool"] = item
-                    exp = self.gain_exp(7, "craft_stone_axe")
+                    exp = self.gain_exp(15, "craft_stone_axe")
                     reward = self.q_learning.get_reward_for_action("craft_stone_axe")
                     self.q_learning.add_reward(self, "craft_stone_axe", reward, self.current_day)
                     if reward > 15:
@@ -1110,7 +1135,7 @@ class Agent:
                         if not occupied:
                             success, msg = self.build_structure(structure_type, cx, cy)
                             if success:
-                                exp = self.gain_exp(10, f"build_{structure_type}")
+                                exp = self.gain_exp(25, f"build_{structure_type}")
                                 reward = self.q_learning.get_reward_for_action(f"build_{structure_type}")
                                 self.q_learning.add_reward(self, f"build_{structure_type}", reward, self.current_day)
                                 if reward > 15:
@@ -1271,6 +1296,7 @@ class Game:
 
         self.camera_x = 0
         self.camera_y = 0
+        self.ui_scroll_y = 0
 
     def emoji(self, resource_name):
         emojis = {
@@ -1387,7 +1413,7 @@ class Game:
 
     def draw_game(self):
         map_height = 800
-        ui_start_y = map_height + 10
+        ui_start_y = map_height + 10 + self.ui_scroll_y
         self.draw_map(0, 0, SCREEN_WIDTH, map_height)
         y = ui_start_y
         day_text = f"DZIEŃ {self.agent.current_day}/180"
@@ -1477,8 +1503,18 @@ class Game:
         text = self.font_small.render("--- PRZEMYŚLENIA ---", True, PURPLE)
         screen.blit(text, (15, y))
         y += 45
-        for thought in self.agent.thoughts:
-            text = self.font_small.render(f"💭 {thought}"[:55], True, LIGHT_GREEN)
+        if self.agent.thoughts:
+            last_thought = self.agent.thoughts[-1]
+            text = self.font_small.render(f"💭 {last_thought}"[:55], True, LIGHT_GREEN)
+            screen.blit(text, (15, y))
+            y += 40
+
+        # LOG
+        text = self.font_small.render("--- LOG ---", True, YELLOW)
+        screen.blit(text, (15, y))
+        y += 45
+        for entry in self.log[-self.max_log:]:
+            text = self.font_small.render(entry[:55], True, WHITE)
             screen.blit(text, (15, y))
             y += 40
 
@@ -1514,13 +1550,6 @@ class Game:
             screen.blit(text, (15, y))
             y += 40
 
-        text = self.font_small.render("--- LOG ---", True, YELLOW)
-        screen.blit(text, (15, y))
-        y += 45
-        for entry in self.log[-self.max_log:]:
-            text = self.font_small.render(entry[:55], True, WHITE)
-            screen.blit(text, (15, y))
-            y += 40
         button_y = SCREEN_HEIGHT - 150
         button_w = (SCREEN_WIDTH - 40) // 2
         pause_btn = pygame.Rect(15, button_y, button_w, 120)
@@ -1670,6 +1699,10 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+                if event.type == pygame.MOUSEWHEEL:
+                    self.ui_scroll_y += event.y * 30
+                    self.ui_scroll_y = min(0, self.ui_scroll_y)
+                    self.ui_scroll_y = max(-(SCREEN_HEIGHT - 800), self.ui_scroll_y)
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     if not self.agent:
