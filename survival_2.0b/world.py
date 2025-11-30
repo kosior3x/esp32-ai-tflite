@@ -145,6 +145,17 @@ class WorldMap:
                 return node
         return None
 
+    def get_closest_resource(self, x, y, resource_type):
+        closest_node = None
+        min_dist = float('inf')
+        for node in self.resource_nodes:
+            if node.type == resource_type and not node.depleted:
+                dist = abs(node.x - x) + abs(node.y - y)
+                if dist < min_dist:
+                    min_dist = dist
+                    closest_node = node
+        return closest_node
+
     def is_in_camp(self, x, y):
         camp_start_x = self.camp_x - 5 // 2
         camp_start_y = self.camp_y - 5 // 2
