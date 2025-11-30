@@ -262,6 +262,26 @@ class Agent:
         self.knowledge.record_action(self.current_day, action_type, True, {"exp": total_exp})
         return total_exp
 
+    def _apply_profile_biases(self, q_values):
+        if not q_values:
+            return {}
+
+        biased_q = q_values.copy()
+        if self.daily_profile == "Aggressive Day":
+            for action in biased_q:
+                if "find_resource" in action or "explore" in action:
+                    biased_q[action] *= 1.5
+        elif self.daily_profile == "Defensive Day":
+            for action in biased_q:
+                if "rest" in action or "deposit" in action:
+                    biased_q[action] *= 1.5
+        elif self.daily_profile == "Maintenance Day":
+            for action in biased_q:
+                if "build" in action or "craft" in action or "repair" in action:
+                    biased_q[action] *= 1.5
+
+        return biased_q
+
     def _select_daily_profile(self):
         # Tactical Profile Selection
         if self.hp < 30 or self.hunger < 20 or self.thirst < 20:
@@ -462,67 +482,79 @@ class Agent:
     def start_move(self, target_x, target_y, world_map):
         if self.stamina < 5:
             self.path = []
+            self.move_target = None
             return False
 
         start_node = (self.x, self.y)
         end_node = (target_x, target_y)
 
         if start_node == end_node:
+            self.path = []
+            self.move_target = None
             return False
 
+        # Try A* pathfinding first
         self.path = self.pathfinder.find_path(start_node, end_node)
+
         if not self.path:
-            # No path found, maybe try a random move to get unstuck
-            self.move_target = (self.x + random.randint(-1, 1), self.y + random.randint(-1, 1))
-            return True
+            # If A* fails, fall back to simple direct movement
+            self.add_log("A* path not found, using direct movement.")
+            self.move_target = end_node
+        else:
+            # If A* succeeds, ensure the simple move target is disabled
+            self.move_target = None
 
         return True
 
     def _do_move_step_towards_target(self, world_map):
-        """Follows the A* path or moves towards move_target if no path."""
-        if not self.path and not self.move_target:
+        """Follows the A* path if available, otherwise moves towards move_target."""
+        if self.stamina < 2: # Stop if critically low on stamina
+            self.path = []
+            self.move_target = None
             return False
 
-        if self.path:
-            if self.stamina < 5:
-                self.path = []
-                return False
+        next_pos = None
 
+        if self.path:
+            # A* path is priority
             next_pos = self.path.pop(0)
-            self.x, self.y = next_pos
+            if not self.path:
+                self.move_target = None
         elif self.move_target:
-            # Fallback for when no path is found
+            # Fallback to direct movement
             target_x, target_y = self.move_target
             dx = target_x - self.x
             dy = target_y - self.y
 
             if dx == 0 and dy == 0:
                 self.move_target = None
-                return True
+                return True # Reached destination
 
             step_x = 1 if dx > 0 else -1 if dx < 0 else 0
             step_y = 1 if dy > 0 else -1 if dy < 0 else 0
+            next_pos = (self.x + step_x, self.y + step_y)
 
-            self.x += step_x
-            self.y += step_y
-
-            if self.x == target_x and self.y == target_y:
+            if next_pos[0] == target_x and next_pos[1] == target_y:
                 self.move_target = None
 
+        if next_pos:
+            self.x, self.y = next_pos
+            self.position_history.append((self.x, self.y))
+            if len(self.position_history) > 10:
+                self.position_history.pop(0)
 
-        self.position_history.append((self.x, self.y))
-        if len(self.position_history) > 10:
-            self.position_history.pop(0)
-        self.update_discovered_tiles(self.x, self.y)
-        self.move_cooldown = self.move_speed
-        stamina_cost = 2
-        if self.chosen_path:
-            stamina_cost *= (1.0 - self.chosen_path.get_bonus("stamina_reduction"))
-        self.stamina = max(0, self.stamina - stamina_cost)
-        self.idle_timer = 0
-        self.in_camp = world_map.is_in_camp(self.x, self.y)
+            self.update_discovered_tiles(self.x, self.y)
+            self.move_cooldown = self.move_speed
+            stamina_cost = 2
+            if self.chosen_path:
+                stamina_cost *= (1.0 - self.chosen_path.get_bonus("stamina_reduction"))
 
-        return True
+            self.stamina = max(0, self.stamina - stamina_cost)
+            self.idle_timer = 0
+            self.in_camp = world_map.is_in_camp(self.x, self.y)
+            return True
+
+        return False
 
     def calculate_daily_quota(self, days_ahead=2):
         base_food_units = 1 * days_ahead
@@ -564,53 +596,29 @@ class Agent:
 
 
     def ai_decide_action(self, world_map):
+        # --- Pre-decision mandatory actions ---
         if self.pending_skill_choice:
             self.auto_choose_skill()
-            # Return a default safe action while choosing skill
             return "rest"
 
-        # Loop detection
-        if len(self.action_history) > 10:
-            last_10 = self.action_history[-10:]
-            if len(set(last_10)) <= 2: # Repetitive loop
-                state = self.q_learning.get_state(self, world_map)
-                for action in set(last_10):
-                    self.q_learning.update_q_table(state, action, -20, state) # Penalize
-                return "explore" # Break the loop
-
-        # Emergency overrides for Q-learning decisions
+        # Top Priority: Survival instincts override all else
+        if self.day_progress > NIGHT_START and not self.in_camp:
+            self.add_log("Nadchodzi noc. Wracam do obozu.")
+            return ("move_to_camp", world_map.camp_x, world_map.camp_y)
         if self.hunger < 15 and self.inventory["food"] > 0:
             return "eat"
         if self.thirst < 15 and self.inventory["water"] > 0:
             return "drink"
         if self.hp < self.max_hp * 0.2 and self.in_camp:
             return "rest"
-        if self.day_progress > NIGHT_START and not self.in_camp:
-             return ("move_to_camp", world_map.camp_x, world_map.camp_y)
 
-        # Prioritize actions based on daily profile
-        if self.daily_profile == "Emergency Day":
-            if self.in_camp:
-                return "rest"
-            else:
-                return ("move_to_camp", world_map.camp_x, world_map.camp_y)
-        elif self.daily_profile == "Defensive Day":
-            if self.in_camp:
-                return "rest" # Prioritize regeneration
-            else:
-                return ("move_to_camp", world_map.camp_x, world_map.camp_y)
-        elif self.daily_profile == "Maintenance Day":
-            if self.in_camp:
-                if self.equipment["tool"] and self.equipment["tool"].durability < 30:
-                    return "repair_tool"
-
-                for structure in self.camp["structures"]:
-                    if structure.durability < structure.max_durability * 0.7:
-                        return "repair_structure"
-
-                if self.inventory["wood"] > 10 and self.inventory["stone"] > 5:
-                    return "build_fire"
-            return ("find_resource", "wood")
+        # Loop detection
+        if len(self.action_history) > 10 and len(set(self.action_history[-10:])) <= 2:
+            state = self.q_learning.get_state(self, world_map)
+            # Penalize repetitive actions to break the loop
+            for action in set(self.action_history[-10:]):
+                self.q_learning.update_q_table(state, action, -20, state)
+            return "explore"
 
         state = self.q_learning.get_state(self, world_map)
 
@@ -634,6 +642,11 @@ class Agent:
         else:
             action = self.q_learning.choose_action(state, self)
 
+
+        q_values = self._apply_profile_biases(q_values)
+
+        if q_values:
+            action = max(q_values, key=q_values.get)
 
         # Prevent invalid actions
         if action == "eat" and self.inventory["food"] == 0:
@@ -706,61 +719,53 @@ class Agent:
 
             elif action_type == "find_resource":
                 resource_type = action[1]
-                closest = None
-                closest_dist = 9999
-                for node in world_map.resource_nodes:
-                    if node.type == resource_type and not node.depleted:
-                        dist = abs(node.x - self.x) + abs(node.y - self.y)
-                        if dist < closest_dist:
-                            closest = node
-                            closest_dist = dist
+                # Find the target resource node
+                closest_node = world_map.get_closest_resource(self.x, self.y, resource_type)
 
-                if closest:
-                    if self.x == closest.x and self.y == closest.y:
-                        # Jesteśmy na węźle -> zbieramy, ale bierzemy pod uwagę przestrzeń w ekwipunku
+                if closest_node:
+                    # Case 1: Agent is already at the resource node
+                    if self.x == closest_node.x and self.y == closest_node.y:
                         if self.get_total_inventory_size() >= self.current_carry_capacity:
                             self.add_log(f"Inwentarz pełny, nie mogę zebrać {resource_type}.")
-                            return False, "Ekwipunek pełny. Wymagane deponowanie.", 0.1
+                            return False, "Ekwipunek pełny.", 0.1
 
+                        # Calculate harvesting time and efficiency
                         base_time = 1.5
                         correction = 1.0 - (self.strength * 0.05)
                         action_duration = max(base_time * correction, 0.3)
 
                         tool_efficiency = 1.0
-                        if self.equipment["tool"]:
+                        if self.equipment["tool"] and not self.equipment["tool"].broken:
                             tool_efficiency = self.equipment["tool"].stats_bonus.get("harvest_speed", 1.0)
-                            if self.equipment["tool"].broken:
-                                self.add_log(f"Narzędzie {self.equipment['tool'].name} zepsute!")
-                                return False, "Zepsute narzędzie.", action_duration
 
-                        # Wylicz losową ilość możliwą do zebrania i ogranicz ją pojemnością
-                        predicted = min(int(random.randint(1, 3) * tool_efficiency), closest.current_amount)
+                        # Determine amount to harvest
+                        predicted_harvest = min(int(random.randint(1, 3) * tool_efficiency), closest_node.current_amount)
                         available_space = self.current_carry_capacity - self.get_total_inventory_size()
-                        actual = min(predicted, available_space)
+                        amount_to_harvest = min(predicted_harvest, available_space)
 
-                        if actual <= 0:
-                            self.add_log(f"Brak miejsca na {resource_type}.")
+                        if amount_to_harvest <= 0:
                             return False, "Brak miejsca w ekwipunku.", 0.1
 
-                        # Pobierz actual z węzła
-                        harvested = closest.harvest(actual)
-                        if harvested > 0:
+                        # Execute harvest
+                        harvested_amount = closest_node.harvest(amount_to_harvest)
+                        if harvested_amount > 0:
                             if self.equipment["tool"]:
                                 self.equipment["tool"].use()
-                            self.inventory[resource_type] += harvested
+                            self.inventory[resource_type] += harvested_amount
                             self.stamina = max(0, self.stamina - 5)
                             exp = self.gain_exp(8, f"gather_{resource_type}")
-                            return True, f"Zebrano {harvested} {resource_type} (+exp EXP)", action_duration
+                            return True, f"Zebrano {harvested_amount} {resource_type} (+{exp} EXP)", action_duration
+                        else:
+                            return False, "Zasób wyczerpany.", action_duration
 
-                        return False, "Surowiec wyczerpany.", action_duration
+                    # Case 2: Agent needs to move to the node
                     else:
-                        # ruszamy do węzła: ustaw cel (kontynuowany automatycznie w update)
-                        started = self.start_move(closest.x, closest.y, world_map)
-                        if not started:
-                            return False, "Błąd startu ruchu lub brak staminy.", 0.1
-                        return True, f"Szukanie {resource_type}...", self.move_speed
+                        if self.start_move(closest_node.x, closest_node.y, world_map):
+                            return True, f"Idę po {resource_type}...", self.move_speed
+                        else:
+                            return False, "Nie można rozpocząć ruchu.", 0.1
 
-                return False, f"Brak {resource_type}", 1.0
+                return False, f"Brak {resource_type} w pobliżu.", 1.0
 
         if action == "eat":
             action_duration = max(0.5 - (self.dexterity * 0.01), 0.3)
@@ -865,7 +870,7 @@ class Agent:
             self.add_log("Krytyczna stamina — przerwanie ruchu. Odpoczynek...")
 
         # jeśli ustawiony cel i cooldown==0 -> wykonaj krok
-        if self.move_target and self.move_cooldown <= 0:
+        if (self.path or self.move_target) and self.move_cooldown <= 0:
             self._do_move_step_towards_target(world_map)
 
         day_fraction = delta_time / 90

@@ -127,9 +127,14 @@ class Game:
             self.knowledge.save_to_file()
             self.add_log(f"💀 Przyczyna: {self.agent.death_cause}")
             self.add_log(f"Przeżyto: {self.agent.current_day}/180 dni")
-        self.simulation_active = False
+
+        # Auto-restart logic
+        self.add_log("--- RESET SYMULACJI ZA 5 SEKUND ---")
+        pygame.time.delay(5000) # Wait 5 seconds
+        self.start_new_attempt()
 
     def run(self):
+        self.start_new_attempt() # Start the first attempt automatically
         while self.running:
             delta_time = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
