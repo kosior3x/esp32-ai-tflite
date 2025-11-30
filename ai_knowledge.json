@@ -1,0 +1,737 @@
+{
+  "timestamp": "2025-11-30T02:20:45.293237",
+  "attempts": 1,
+  "best_survival_days": 5,
+  "death_causes": {
+    "thirst": 1
+  },
+  "successful_actions": {
+    "0": [
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 8
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 8
+        }
+      }
+    ],
+    "1": [
+      {
+        "action": "night_out_penalty",
+        "details": {
+          "exp": -178
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 9
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 9
+        }
+      }
+    ],
+    "2": [
+      {
+        "action": "survive_day",
+        "details": {
+          "exp": 105
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 10
+        }
+      }
+    ],
+    "3": [
+      {
+        "action": "night_out_penalty",
+        "details": {
+          "exp": -215
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 11
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 12
+        }
+      }
+    ],
+    "4": [
+      {
+        "action": "night_out_penalty",
+        "details": {
+          "exp": -241
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_food",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_water",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 12
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 13
+        }
+      },
+      {
+        "action": "gather_fiber",
+        "details": {
+          "exp": 13
+        }
+      },
+      {
+        "action": "gather_wood",
+        "details": {
+          "exp": 13
+        }
+      }
+    ],
+    "5": [
+      {
+        "action": "night_out_penalty",
+        "details": {
+          "exp": -264
+        }
+      }
+    ]
+  },
+  "learned_recipes": [],
+  "death_days": [
+    5
+  ],
+  "death_analysis": [
+    {
+      "day": 5,
+      "cause": "thirst",
+      "final_stats": {
+        "hp": 160.24716666664187,
+        "hunger": 24.981481481401886,
+        "thirst": -0.023148148183910422,
+        "stamina": 0.09166666666687906
+      },
+      "inventory": {
+        "wood": 2,
+        "stone": 0,
+        "food": 3,
+        "water": 5,
+        "fiber": 11,
+        "metal": 0
+      },
+      "storage": {
+        "wood": 104,
+        "stone": 0,
+        "food": 32,
+        "water": 36,
+        "fiber": 11,
+        "metal": 0
+      },
+      "structures": 1,
+      "level": 7,
+      "skills": [
+        "Rzemieślnik"
+      ],
+      "errors": [
+        "Gromadzenie bez budowania"
+      ],
+      "recommendations": [
+        "🏗️ Inwestuj zasoby w rozwój obozu"
+      ]
+    }
+  ],
+  "action_history": {},
+  "milestone_achievements": {},
+  "resource_patterns": {},
+  "building_patterns": {},
+  "risk_tolerance": 0.6,
+  "caution_deaths": 0
+}

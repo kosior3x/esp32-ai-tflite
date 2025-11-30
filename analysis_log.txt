@@ -1,0 +1,251 @@
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.12)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+🧠 To moja próba #1
+📈 Rekord do pobicia: 0 dni
+[D1] Zebrano 3 food (+exp EXP)
+[D1] Zebrano 3 water (+exp EXP)
+[D1] Zebrano 3 wood (+exp EXP)
+[D1] Zebrano 1 wood (+exp EXP)
+[D1] Zebrano 3 wood (+exp EXP)
+[D1] Zebrano 1 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+Deponowanie zasobów.
+[D1] Zdeponowano 14 przedmiotów
+[D1] Zebrano 3 food (+exp EXP)
+[D1] Zebrano 2 water (+exp EXP)
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D1] Zebrano 1 wood (+exp EXP)
+[D1] Zebrano 1 wood (+exp EXP)
+[D1] Zebrano 2 wood (+exp EXP)
+[D1] Zebrano 2 wood (+exp EXP)
+AWANS! Poziom 2! Otrzymano 5 pkt atrybutów.
+[D1] Zebrano 1 wood (+exp EXP)
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D1] Zebrano 2 water (+exp EXP)
+Otrzymano karę EXP za noc poza obozem.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D2] Zebrano 2 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D2] Odpoczynek (+35 HP/Stamina)
+Deponowanie zasobów.
+[D2] Zdeponowano 16 przedmiotów
+[D2] Zebrano 3 food (+exp EXP)
+[D2] Zebrano 3 water (+exp EXP)
+[D2] Zebrano 1 wood (+exp EXP)
+[D2] Zebrano 1 wood (+exp EXP)
+[D2] Zebrano 1 wood (+exp EXP)
+[D2] Zebrano 2 wood (+exp EXP)
+[D2] Zebrano 1 wood (+exp EXP)
+[D2] Zebrano 2 wood (+exp EXP)
+[D2] Zebrano 3 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D2] Odpoczynek (+35 HP/Stamina)
+Deponowanie zasobów.
+[D2] Zdeponowano 17 przedmiotów
+[D2] Zebrano 2 food (+exp EXP)
+[D2] Zebrano 2 food (+exp EXP)
+[D2] Zebrano 1 water (+exp EXP)
+AWANS! Poziom 3! Otrzymano 5 pkt atrybutów.
+[D2] Zebrano 3 water (+exp EXP)
+[D2] Zebrano 3 wood (+exp EXP)
+[D2] Zebrano 1 wood (+exp EXP)
+[D2] Zebrano 2 wood (+exp EXP)
+[D2] Zebrano 3 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+[D2] Odpoczynek (+35 HP/Stamina)
+Deponowanie zasobów.
+[D2] Zdeponowano 17 przedmiotów
+[D2] Zebrano 2 food (+exp EXP)
+[D2] Zebrano 1 food (+exp EXP)
+[D2] Zebrano 2 water (+exp EXP)
+[D2] Zebrano 1 water (+exp EXP)
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+[D2] Odpoczynek (+35 HP/Stamina)
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+[D2] Odpoczynek (+35 HP/Stamina)
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+Nadchodzi noc. Wracam do obozu.
+AWANS! Poziom 4! Otrzymano 5 pkt atrybutów.
+Zakończono Dzień 2. (+81 EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+[D3] Zebrano 3 wood (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+[D3] Zebrano 3 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+[D3] Odpoczynek (+35 HP/Stamina)
+Deponowanie zasobów.
+[D3] Zdeponowano 19 przedmiotów
+[D3] Zebrano 3 food (+exp EXP)
+[D3] Zebrano 2 water (+exp EXP)
+[D3] Zebrano 2 water (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+AWANS! Poziom 5! Otrzymano 5 pkt atrybutów.
+[D3] Zebrano 2 wood (+exp EXP)
+[D3] Zebrano 3 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D3] Odpoczynek (+40 HP/Stamina)
+Deponowanie zasobów.
+[D3] Zdeponowano 20 przedmiotów
+[D3] Zebrano 3 food (+exp EXP)
+[D3] Zebrano 2 water (+exp EXP)
+[D3] Zebrano 2 water (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 1 wood (+exp EXP)
+[D3] Zebrano 3 wood (+exp EXP)
+[D3] Zebrano 2 wood (+exp EXP)
+Otrzymano karę EXP za noc poza obozem.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D4] Odpoczynek (+40 HP/Stamina)
+Deponowanie zasobów.
+[D4] Zdeponowano 19 przedmiotów
+[D4] Zebrano 2 food (+exp EXP)
+[D4] Zebrano 2 food (+exp EXP)
+[D4] Zebrano 3 water (+exp EXP)
+[D4] Zebrano 3 wood (+exp EXP)
+[D4] Zebrano 3 wood (+exp EXP)
+[D4] Zebrano 2 wood (+exp EXP)
+[D4] Zebrano 3 wood (+exp EXP)
+[D4] Zebrano 2 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+Inwentarz pełny. Powrót do obozu!
+[D4] Odpoczynek (+40 HP/Stamina)
+Deponowanie zasobów.
+[D4] Zdeponowano 20 przedmiotów
+[D4] Zebrano 2 food (+exp EXP)
+[D4] Zebrano 1 food (+exp EXP)
+[D4] Zebrano 3 water (+exp EXP)
+[D4] Zebrano 1 wood (+exp EXP)
+[D4] Zebrano 1 wood (+exp EXP)
+[D4] Zebrano 1 wood (+exp EXP)
+[D4] Zebrano 1 wood (+exp EXP)
+[D4] Zebrano 3 wood (+exp EXP)
+[D4] Zebrano 1 wood (+exp EXP)
+[D4] Zebrano 3 wood (+exp EXP)
+Otrzymano 1 punkt umiejętności!
+AWANS! Poziom 6! Otrzymano 5 pkt atrybutów.
+[D4] Zebrano 1 wood (+exp EXP)
+Wybrano umiejętność: Rzemieślnik Lvl 1
+[D4] Zebrano 3 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Otrzymano karę EXP za noc poza obozem.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D5] Odpoczynek (+40 HP/Stamina)
+Deponowanie zasobów.
+[D5] Zdeponowano 21 przedmiotów
+[D5] Zebrano 1 food (+exp EXP)
+[D5] Zebrano 2 food (+exp EXP)
+[D5] Zebrano 2 water (+exp EXP)
+[D5] Zebrano 3 water (+exp EXP)
+[D5] Zebrano 1 fiber (+exp EXP)
+[D5] Zebrano 3 fiber (+exp EXP)
+[D5] Zebrano 3 fiber (+exp EXP)
+[D5] Zebrano 1 fiber (+exp EXP)
+[D5] Zebrano 3 fiber (+exp EXP)
+[D5] Zebrano 1 wood (+exp EXP)
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+Inwentarz pełny. Powrót do obozu!
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D5] Odpoczynek (+40 HP/Stamina)
+Deponowanie zasobów.
+[D5] Zdeponowano 20 przedmiotów
+[D5] Zebrano 2 food (+exp EXP)
+[D5] Zebrano 1 food (+exp EXP)
+[D5] Zebrano 1 water (+exp EXP)
+[D5] Zebrano 1 water (+exp EXP)
+[D5] Zebrano 3 water (+exp EXP)
+[D5] Zebrano 1 fiber (+exp EXP)
+[D5] Zebrano 1 fiber (+exp EXP)
+[D5] Zebrano 2 fiber (+exp EXP)
+[D5] Zebrano 2 fiber (+exp EXP)
+AWANS! Poziom 7! Otrzymano 5 pkt atrybutów.
+[D5] Zebrano 1 fiber (+exp EXP)
+[D5] Zebrano 2 fiber (+exp EXP)
+[D5] Zebrano 2 fiber (+exp EXP)
+Przerwanie ruchu — za mało staminy, odpoczynek.
+[D5] Zebrano 2 wood (+exp EXP)
+Otrzymano karę EXP za noc poza obozem.
+💀 Przyczyna: thirst
+Przeżyto: 5/180 dni
+
+--- Analiza Zakończona ---
+Agent przeżył: 5 dni.
+Powód zatrzymania: Śmierć (thirst)
