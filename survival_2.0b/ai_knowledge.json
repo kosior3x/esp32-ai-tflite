@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-11-30T03:46:50.801746",
+  "attempts": 0,
+  "best_survival_days": 0,
+  "death_causes": {},
+  "successful_actions": {},
+  "learned_recipes": [],
+  "death_days": [],
+  "death_analysis": [],
+  "action_history": {},
+  "milestone_achievements": {},
+  "resource_patterns": {},
+  "building_patterns": {},
+  "risk_tolerance": 0.5,
+  "caution_deaths": 0
+}
