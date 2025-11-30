@@ -2,6 +2,92 @@ import json
 import os
 import random
 from datetime import datetime
+import os
+
+class Achievement:
+    def __init__(self, id, name, description, condition, reward):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.condition = condition
+        self.reward = reward
+        self.unlocked = False
+        self.unlock_date = None
+
+class AchievementSystem:
+    def __init__(self):
+        self.achievements = self._initialize_achievements()
+        self.unlocked_achievements = set()
+        self.total_bonus = {}
+
+    def _initialize_achievements(self):
+        return {
+            "first_week": Achievement(
+                "first_week", "🗓️ Pierwszy Tydzień", "Przeżyj 7 dni",
+                lambda agent: agent.current_day >= 7,
+                {"exp_bonus": 0.05, "max_hp": 10}
+            ),
+            "master_crafter": Achievement(
+                "master_crafter", "🔨 Mistrz Rzemiosła", "Skraftuj 20 przedmiotów",
+                lambda agent: agent.total_crafted >= 20,
+                {"crafting_speed": 0.15, "tool_durability": 0.2}
+            ),
+            "explorer": Achievement(
+                "explorer", "🗺️ Odkrywca", "Odkryj 75% mapy",
+                lambda agent: len(agent.discovered_tiles) >= (20*20*0.75),
+                {"vision_range": 1, "stamina_cost": -0.1}
+            ),
+            "survivor": Achievement(
+                "survivor", "💪 Twardziel", "Przeżyj 30 dni",
+                lambda agent: agent.current_day >= 30,
+                {"max_hp": 50, "defense": 5}
+            ),
+        }
+
+    def check_achievements(self, agent):
+        newly_unlocked = []
+        for ach_id, achievement in self.achievements.items():
+            if not achievement.unlocked and achievement.condition(agent):
+                achievement.unlocked = True
+                achievement.unlock_date = datetime.now().isoformat()
+                self.unlocked_achievements.add(ach_id)
+                newly_unlocked.append(achievement)
+                self._apply_reward(achievement.reward, agent)
+        return newly_unlocked
+
+    def _apply_reward(self, reward, agent):
+        for bonus_type, value in reward.items():
+            if bonus_type == "exp_bonus":
+                agent.exp_multiplier = agent.exp_multiplier * (1 + value)
+            elif bonus_type == "max_hp":
+                agent.max_hp += value
+                agent.hp += value
+        for key, value in reward.items():
+            self.total_bonus[key] = self.total_bonus.get(key, 0) + value
+
+    def save_achievements(self, filename="achievements.json"):
+        data = {
+            "unlocked": list(self.unlocked_achievements),
+            "details": {
+                ach_id: {
+                    "name": ach.name, "unlocked": ach.unlocked, "unlock_date": ach.unlock_date
+                }
+                for ach_id, ach in self.achievements.items()
+            },
+            "total_bonus": self.total_bonus
+        }
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+    def load_achievements(self, filename="achievements.json"):
+        if os.path.exists(filename):
+            with open(filename, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.unlocked_achievements = set(data["unlocked"])
+            self.total_bonus = data.get("total_bonus", {})
+            for ach_id in self.unlocked_achievements:
+                if ach_id in self.achievements:
+                    self.achievements[ach_id].unlocked = True
 
 class QLearningSystem:
     def __init__(self, actions):
@@ -68,6 +154,23 @@ class AIKnowledge:
         self.building_patterns = {}
         self.risk_tolerance = 0.5
         self.caution_deaths = 0
+        self.mistake_patterns = {}
+        self.strategy_effectiveness = {}
+        self.learning_insights = []
+
+    def get_adaptive_priorities(self, current_day):
+        priorities = {
+            "food": 1.0,
+            "water": 1.0,
+            "shelter": 1.0,
+            "exploration": 1.0
+        }
+
+        for insight in self.learning_insights:
+            if insight.get("adjustment") == "increase_food_priority":
+                priorities["food"] *= insight["multiplier"]
+
+        return priorities
 
     def record_death(self, day, cause):
         self.attempts += 1
@@ -136,6 +239,43 @@ class AIKnowledge:
             self.risk_tolerance += 0.1
 
         self.death_analysis.append(analysis)
+
+        self._detect_mistake_patterns(agent)
+        self._update_strategy_effectiveness(agent)
+        self._generate_insights(agent)
+
+    def _detect_mistake_patterns(self, agent):
+        if agent.death_cause == "hunger":
+            key = "hunger_deaths"
+            self.mistake_patterns[key] = self.mistake_patterns.get(key, 0) + 1
+
+            if self.mistake_patterns[key] >= 3:
+                self.learning_insights.append({
+                    "type": "critical_insight",
+                    "message": "⚠️ WZORZEC: Giną z głodu. Priorytet: jedzenie w dniach 1-10",
+                    "adjustment": "increase_food_priority",
+                    "multiplier": 2.0
+                })
+
+    def _update_strategy_effectiveness(self, agent):
+        strategy_key = f"day_{agent.current_day}_structures_{len(agent.camp['structures'])}"
+
+        if strategy_key not in self.strategy_effectiveness:
+            self.strategy_effectiveness[strategy_key] = []
+
+        self.strategy_effectiveness[strategy_key].append({
+            "survival_days": agent.current_day,
+            "level": agent.level,
+            "camp_level": agent.camp["level"]
+        })
+
+    def _generate_insights(self, agent):
+        if agent.current_day > self.best_survival_days:
+            self.learning_insights.append({
+                "type": "breakthrough",
+                "message": f"🎉 NOWY REKORD: {agent.current_day} dni! Strategia zadziałała!",
+                "successful_actions": agent.action_history[-50:]
+            })
 
     def record_action(self, day, action, success, details=None):
         if success:
