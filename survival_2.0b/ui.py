@@ -177,6 +177,18 @@ class UI:
             self.screen.blit(text, (15, y))
             y += 40
 
+        y = self.draw_decision_panel(y)
+        y += 20
+
+        y = self.draw_achievements(y)
+        y += 20
+
+        if self.agent.npc_helpers:
+            y = self.draw_npc_status(y)
+            y += 20
+
+        y = self.draw_journal_preview(y)
+
         button_y = 2200 - 150
         button_w = (1025 - 40) // 2
         pause_btn = pygame.Rect(15, button_y, button_w, 120)
@@ -319,3 +331,82 @@ class UI:
         pygame.draw.rect(self.screen, (255, 255, 255), (x, y, width, height), 2)
         text = self.font_small.render(f"{label}: {int(max(value, 0))}/{int(max_value)}", True, (255, 255, 255))
         self.screen.blit(text, (x + 5, y + 2))
+
+    def draw_decision_panel(self, y):
+        thought_text = self.font_small.render(
+            f"💭 {self.agent.current_thought}",
+            True, (144, 238, 144)
+        )
+        self.screen.blit(thought_text, (15, y))
+        y += 50
+
+        text = self.font_small.render("Rozważane opcje:", True, (128, 128, 128))
+        self.screen.blit(text, (15, y))
+        y += 40
+
+        for i, (action, value) in enumerate(self.agent.alternative_actions):
+            color = (0, 255, 0) if i == 0 else (200, 200, 200)
+            text = self.font_small.render(
+                f"{i+1}. {action}: {value:.1f}",
+                True, color
+            )
+            self.screen.blit(text, (30, y))
+            y += 35
+
+        return y
+
+    def draw_achievements(self, y):
+        text = self.font_small.render("--- OSIĄGNIĘCIA ---", True, (255, 215, 0))
+        self.screen.blit(text, (15, y))
+        y += 45
+
+        unlocked = len(self.game.achievement_system.unlocked_achievements)
+        total = len(self.game.achievement_system.achievements)
+        progress_text = f"Odblokowano: {unlocked}/{total}"
+        text = self.font_small.render(progress_text, True, (200, 200, 200))
+        self.screen.blit(text, (15, y))
+        y += 40
+
+        for ach in self.game.achievement_system.achievements.values():
+            if not ach.unlocked:
+                text = self.font_small.render(f"🎯 {ach.name}: {ach.description}", True, (255, 255, 255))
+                self.screen.blit(text, (15, y))
+                y += 35
+                break
+
+        return y
+
+    def draw_npc_status(self, y):
+        text = self.font_small.render("--- POMOCNICY NPC ---", True, (100, 200, 255))
+        self.screen.blit(text, (15, y))
+        y += 45
+
+        for npc in self.agent.npc_helpers:
+            status = f"{npc.name} (Lvl {npc.level}, {npc.specialty})"
+            text = self.font_small.render(status, True, (255, 255, 255))
+            self.screen.blit(text, (15, y))
+            y += 35
+
+            bar_width = 300
+            bar_height = 20
+            fill = int((npc.training_progress / npc.max_training) * bar_width)
+            pygame.draw.rect(self.screen, (50, 50, 50), (15, y, bar_width, bar_height))
+            pygame.draw.rect(self.screen, (0, 200, 100), (15, y, fill, bar_height))
+            pygame.draw.rect(self.screen, (255, 255, 255), (15, y, bar_width, bar_height), 2)
+            y += 30
+
+        return y
+
+    def draw_journal_preview(self, y):
+        text = self.font_small.render("--- OSTATNIE WYDARZENIA ---", True, (200, 150, 255))
+        self.screen.blit(text, (15, y))
+        y += 45
+
+        recent = self.agent.journal.entries[-3:]
+        for entry in recent:
+            event_text = f"D{entry['day']}: {entry['description'][:40]}"
+            text = self.font_small.render(event_text, True, (220, 220, 220))
+            self.screen.blit(text, (15, y))
+            y += 35
+
+        return y
